@@ -92,12 +92,12 @@ void removePID(ActivePID *head, pid_t pid) {
 }
 
 /******************************************************************************
- * Function Name: handle_bgsigint()
+ * Function Name: handle_fgsigint()
  * 
  * Description: SIGINT handler
  * 
  *****************************************************************************/
-void handle_bgsigint(int signo) {
+void handle_fgsigint(int signo) {
     exit(0);
 }
 

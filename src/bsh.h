@@ -34,7 +34,7 @@ Command *getInput();
 ActivePID *addPID(ActivePID *, pid_t);
 void removePID(ActivePID *, pid_t);
 
-void handle_bgsigint(int);
+void handle_fgsigint(int);
 void handle_bgsigtstp(int);
 
 #endif

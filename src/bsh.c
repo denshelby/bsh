@@ -21,9 +21,7 @@ int main() {
     int inFD = dup(0);
     int outFD = dup(1);
     ActivePID *activehead = NULL;
-    // activehead->next = NULL;
     ActivePID *activecur = activehead;
-    // int activecnt = 0;
     pid_t curChild;
     int curStatus;
 
@@ -33,9 +31,9 @@ int main() {
     sigaction(SIGINT, &ignore_action, NULL);
 
     // SIGINT kill bg processes
-    struct sigaction bgsigint = {0};
-    bgsigint.sa_handler = handle_bgsigint;
-    bgsigint.sa_flags = 0;
+    struct sigaction fgsigint = {0};
+    fgsigint.sa_handler = handle_fgsigint;
+    fgsigint.sa_flags = 0;
 
     // SIGTSTP
     struct sigaction bgsigtstp = {0};
@@ -130,8 +128,8 @@ int main() {
                     fflush(stdout);
                     break;
                 case 0:
-                    if (curCmd->bg) {
-                        sigaction(SIGINT, &bgsigint, NULL);
+                    if (!curCmd->bg) {
+                        sigaction(SIGINT, &fgsigint, NULL);
                     }
                     sigaction(SIGTSTP, &ignore_action, NULL);
                     fflush(stdout);
