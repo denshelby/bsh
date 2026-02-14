@@ -22,8 +22,8 @@
 3. **External Commands**: For other commands, a child process is created using `fork()`, and the command is executed using `execvp`.
 4. **Background Processes**: Background processes are managed using a linked list, and their statuses are periodically checked.
 5. **Signal Handling**:
-   - `SIGINT` is ignored by the shell but passed to foreground processes.
-   - `SIGTSTP` toggles between normal and foreground-only modes.
+   - `SIGINT` (`Ctrl+C`) is ignored by the shell but passed to foreground processes.
+   - `SIGTSTP` (`Ctrl+Z`) toggles between normal and foreground-only modes.
 
 ## File Structure
 
@@ -33,15 +33,15 @@
 
 ## Compilation
 
-To compile the program, use the following command:
+To compile the program, use the make file:
 
 ```bash
-gcc -o smallsh smallsh.c util.c
+make
 ```
 
 ## Usage
 
-Run the shell using:
+Once compiled, the executable can be found in the `bin/` directory. Run bsh from the bin director with:
 
 ```bash
 ./bsh
@@ -73,11 +73,6 @@ Run the shell using:
   ```bash
   exit
   ```
-
-## Signal Behavior
-
-- `SIGINT` (`Ctrl+C`): Ignored by the shell but terminates foreground processes.
-- `SIGTSTP` (`Ctrl+Z`): Toggles foreground-only mode. In this mode, background processes are disabled.
 
 ## License
 
