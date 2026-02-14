@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdarg.h>
+#include <fcntl.h>
+#include <signal.h>
+
 #include "bsh.h"
 
 /******************************************************************************
@@ -11,10 +20,10 @@ int main() {
     int childStatus = 0;
     int inFD = dup(0);
     int outFD = dup(1);
-    struct activepid *activehead = NULL;
+    ActivePID *activehead = NULL;
     // activehead->next = NULL;
-    struct activepid *activecur = activehead;
-    int activecnt = 0;
+    ActivePID *activecur = activehead;
+    // int activecnt = 0;
     pid_t curChild;
     int curStatus;
 
@@ -53,7 +62,7 @@ int main() {
             activecur = activecur->next;
         }
 
-        struct command *curCmd = getInput();
+        Command *curCmd = getInput();
 
         // Ignore blank line or comment
         if (curCmd->argc == 0) continue;

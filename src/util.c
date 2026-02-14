@@ -1,3 +1,10 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "bsh.h"
 
 bool bgtoggle = true;
@@ -9,11 +16,11 @@ bool bgtoggle = true;
  * and returns a struct with the data.
  * 
  *****************************************************************************/
-struct command *getInput() {
+Command *getInput() {
 
     char input[MAXINPUT];
     input[0] = '\0';
-    struct command *curCmd = (struct command *) calloc(1, sizeof(struct command));
+    Command *curCmd = (Command *) calloc(1, sizeof(*curCmd));
     curCmd->argc = 0;
 
     // Input prompt
@@ -42,21 +49,34 @@ struct command *getInput() {
     return curCmd;
 }
 
-
-struct activepid *addPID(struct activepid *head, pid_t pid) {
-    struct activepid *newpid = (struct activepid *) calloc(1, sizeof(struct activepid));
+/******************************************************************************
+ * Function Name: addPID()
+ * 
+ * Description: Allocates memory for a new pid and adds it to the linked list
+ * of pids.
+ * 
+ *****************************************************************************/
+ActivePID *addPID(ActivePID *head, pid_t pid) {
+    ActivePID *newpid = (ActivePID *) calloc(1, sizeof(ActivePID));
     newpid->pid = pid;
     newpid->next = head;
     return newpid;
 }
 
-void removePID(struct activepid *head, pid_t pid) {
-    struct activepid *prevpid = head;
-    struct activepid *curpid = head->next;
+/******************************************************************************
+ * Function Name: removePID()
+ * 
+ * Description: Removes a pid from the linked list of pids. Frees the memory
+ * of the removed pid.
+ * 
+ *****************************************************************************/
+void removePID(ActivePID *head, pid_t pid) {
+    ActivePID *prevpid = head;
+    ActivePID *curpid = head->next;
 
     if (head->pid == pid) {
         head = head->next;
-        // free(prevpid);
+        free(prevpid);
         return;
     }
 
@@ -71,12 +91,22 @@ void removePID(struct activepid *head, pid_t pid) {
 
 }
 
-
+/******************************************************************************
+ * Function Name: handle_bgsigint()
+ * 
+ * Description: SIGINT handler
+ * 
+ *****************************************************************************/
 void handle_bgsigint(int signo) {
     exit(0);
 }
 
-
+/******************************************************************************
+ * Function Name: handle_bgsigtstp()
+ * 
+ * Description: SIGTSTP handler
+ * 
+ *****************************************************************************/
 void handle_bgsigtstp(int signo) {
     if (bgtoggle) {
         bgtoggle = false;

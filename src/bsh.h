@@ -1,12 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <signal.h>
+#ifndef _BSH_
+#define _BSH_
 
 #define MAXINPUT 2048
 #define MAXARG 512
@@ -15,28 +8,33 @@
 
 
 /******************************************************************************
- * struct command
- * 
+ * Command - Struct to hold user input command and associated arguments
  *****************************************************************************/
-struct command {
+typedef struct command {
     int argc;
     char *argv[MAXARG];
     char infile[MAXPATH];
     char outfile[MAXPATH];
     bool bg;
-};
+} Command;
 
-struct command *getInput();
-void printCmd(struct command *);
-
-struct activepid {
+/******************************************************************************
+ * ActivePID - Struct to hold a pid and a pointer to the next pid in a linked
+ * list.
+ *****************************************************************************/
+typedef struct activepid {
     pid_t pid;
     struct activepid *next;
-};
+} ActivePID;
 
-struct activepid *addPID(struct activepid *, pid_t);
-void removePID(struct activepid *, pid_t);
 
+Command *getInput();
+// void printCmd(Command *);
+
+ActivePID *addPID(ActivePID *, pid_t);
+void removePID(ActivePID *, pid_t);
 
 void handle_bgsigint(int);
 void handle_bgsigtstp(int);
+
+#endif
