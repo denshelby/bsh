@@ -5,28 +5,27 @@
 #include <stdbool.h>
 #include "bsh.h"
 
-int builtin(Command *curCmd, int *childStatus) {
 
-    if (!strcmp(curCmd->argv[0], "exit")) {
-            return 2;
-        } else if (!strcmp(curCmd->argv[0], "cd")) {
-            if (curCmd->argc > 1) {
-                if (!strcmp(curCmd->argv[1], "~")) {
-                    chdir(getenv("HOME"));
-                }
-                else if (chdir(curCmd->argv[1]) == -1) {
-                    printf("%s: No such file or directory\n", curCmd->argv[1]);
-                    fflush(stdout);
-                }
-            } else {
-                chdir(getenv("HOME"));
-            }
-            return 1;
-        } else if (!strcmp(curCmd->argv[0], "status")) {
-            printf("exit value %d\n", WEXITSTATUS(*childStatus));
-            fflush(stdout);
-            return 1;
+void bsh_status(int *childStatus) {
+    printf("exit value %d\n", WEXITSTATUS(*childStatus));
+    fflush(stdout);
+}
+
+void bsh_cd(Command *curCmd) {
+    if (curCmd->argc > 1) {
+        if (!strcmp(curCmd->argv[1], "~")) {
+            chdir(getenv("HOME"));
         }
-    
-    return 0;
+        else if (chdir(curCmd->argv[1]) == -1) {
+            printf("%s: No such file or directory\n", curCmd->argv[1]);
+            fflush(stdout);
+        }
+    } else {
+        chdir(getenv("HOME"));
+    }
+
+}
+
+void bsh_history(){
+
 }

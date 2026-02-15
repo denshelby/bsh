@@ -20,6 +20,7 @@
 #include <signal.h>
 
 #include "bsh.h"
+#include "builtin.h"
 
 int main() {
     int childStatus = 0;
@@ -53,12 +54,16 @@ int main() {
         if (curCmd->argc == 0) continue;
         if (!strncmp(curCmd->argv[0], "#", 1)) continue;
 
-        // Process built in commands
-        if (builtin(curCmd, &childStatus) == 1) {
-            continue;
-        } else if (builtin(curCmd, &childStatus) == 2) {
+
+        if (!strcmp(curCmd->argv[0], "exit")) {
             free(curCmd);
             break;
+        } else if (!strcmp(curCmd->argv[0], "status")) {
+            bsh_status(&childStatus);
+        } else if (!strcmp(curCmd->argv[0], "cd")) {
+            bsh_cd(curCmd);
+        } else if (!strcmp(curCmd->argv[0], "history")) {
+            bsh_history();
         
         // Process exec() commands
         } else {
