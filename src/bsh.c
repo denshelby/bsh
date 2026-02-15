@@ -59,7 +59,10 @@ int main() {
             break;
         } else if (!strcmp(curCmd->argv[0], "cd")) {
             if (curCmd->argc > 1) {
-                if (chdir(curCmd->argv[1]) == -1) {
+                if (!strcmp(curCmd->argv[1], "~")) {
+                    chdir(getenv("HOME"));
+                }
+                else if (chdir(curCmd->argv[1]) == -1) {
                     printf("%s: No such file or directory\n", curCmd->argv[1]);
                     fflush(stdout);
                 }
