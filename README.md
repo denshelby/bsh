@@ -1,6 +1,6 @@
 # bsh
 
-`bsh` is a simple Linux shell program written in C. It provides basic shell functionality, including executing built-in commands like `cd`, `status`, and `exit`, executing external commands, handling input/output redirection, and managing background processes.
+**bsh** is a simple Linux shell program written in C. It provides basic shell functionality, including executing built-in commands like `cd`, `status`, and `exit`, executing external commands, handling input/output redirection, and managing background processes.
 
 ## Features
 

@@ -24,7 +24,7 @@ Command *getInput() {
     curCmd->argc = 0;
 
     // Input prompt
-    printf(": ");           
+    printf("bsh> ");           
     fflush(stdout);
     fgets(input, sizeof(input), stdin);
 
@@ -47,6 +47,34 @@ Command *getInput() {
     }
 
     return curCmd;
+}
+
+/******************************************************************************
+ * Function Name: processCheck()
+ * 
+ * Description: Traverses the linked list of running processes and reports 
+ * any that are finished.
+ * 
+ *****************************************************************************/
+void processCheck(ActivePID *activehead) {
+    ActivePID *activecur = activehead;
+    pid_t curChild;
+    int curStatus;
+
+    activecur = activehead;
+        while (activecur != NULL) {
+            curChild = waitpid(activecur->pid, &curStatus, WNOHANG);
+            if (curChild == activecur->pid) {
+                if (WIFEXITED(curStatus)) {
+                    printf("background pid %d is done: exit value %d\n", activecur->pid, WEXITSTATUS(curStatus));
+                } else {
+                    printf("background pid %d is done: terminated by signal %d\n", activecur->pid, WTERMSIG(curStatus));
+                }
+                fflush(stdout);
+                removePID(activehead, activecur->pid);
+            }
+            activecur = activecur->next;
+        }
 }
 
 /******************************************************************************

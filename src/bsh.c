@@ -1,3 +1,15 @@
+/******************************************************************************
+ * Program Name: bsh
+ * 
+ * Description: Simple Linux shell. Provides basic shell functionality, 
+ * including executing built-in commands like `cd`, `status`, and `exit`, 
+ * executing external commands, handling input/output redirection, and 
+ * managing background processes.
+ * 
+ * Author: Dennis Shelby
+ *
+ *****************************************************************************/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -9,21 +21,11 @@
 
 #include "bsh.h"
 
-/******************************************************************************
- * Program Name: bsh
- * 
- * Description: Linux shell.
- * 
- *
- *****************************************************************************/
 int main() {
     int childStatus = 0;
     int inFD = dup(0);
     int outFD = dup(1);
     ActivePID *activehead = NULL;
-    ActivePID *activecur = activehead;
-    pid_t curChild;
-    int curStatus;
 
     // Ignore SIGINT
     struct sigaction ignore_action = {0};
@@ -43,22 +45,7 @@ int main() {
 
 
     while (true) {
-
-        // Check running processes and report any that are finished
-        activecur = activehead;
-        while (activecur != NULL) {
-            curChild = waitpid(activecur->pid, &curStatus, WNOHANG);
-            if (curChild == activecur->pid) {
-                if (WIFEXITED(curStatus)) {
-                    printf("background pid %d is done: exit value %d\n", activecur->pid, WEXITSTATUS(curStatus));
-                } else {
-                    printf("background pid %d is done: terminated by signal %d\n", activecur->pid, WTERMSIG(curStatus));
-                }
-                fflush(stdout);
-                removePID(activehead, activecur->pid);
-            }
-            activecur = activecur->next;
-        }
+        processCheck(activehead);
 
         Command *curCmd = getInput();
 
