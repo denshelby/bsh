@@ -31,6 +31,8 @@ typedef struct activepid {
 Command *getInput();
 // void printCmd(Command *);
 
+int builtin(Command *, int *);
+
 void processCheck(ActivePID *);
 ActivePID *addPID(ActivePID *, pid_t);
 void removePID(ActivePID *, pid_t);

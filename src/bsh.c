@@ -54,24 +54,11 @@ int main() {
         if (!strncmp(curCmd->argv[0], "#", 1)) continue;
 
         // Process built in commands
-        if (!strcmp(curCmd->argv[0], "exit")) {
+        if (builtin(curCmd, &childStatus) == 1) {
+            continue;
+        } else if (builtin(curCmd, &childStatus) == 2) {
             free(curCmd);
             break;
-        } else if (!strcmp(curCmd->argv[0], "cd")) {
-            if (curCmd->argc > 1) {
-                if (!strcmp(curCmd->argv[1], "~")) {
-                    chdir(getenv("HOME"));
-                }
-                else if (chdir(curCmd->argv[1]) == -1) {
-                    printf("%s: No such file or directory\n", curCmd->argv[1]);
-                    fflush(stdout);
-                }
-            } else {
-                chdir(getenv("HOME"));
-            }
-        } else if (!strcmp(curCmd->argv[0], "status")) {
-            printf("exit value %d\n", WEXITSTATUS(childStatus));
-            fflush(stdout);
         
         // Process exec() commands
         } else {

@@ -24,7 +24,7 @@ Command *getInput() {
     curCmd->argc = 0;
 
     // Input prompt
-    printf("bsh> ");           
+    printf("\033[1;36mbsh>\033[0m ");           
     fflush(stdout);
     fgets(input, sizeof(input), stdin);
 
