@@ -1,11 +1,12 @@
 # bsh
 
-**bsh** is a simple Linux shell program written in C. It provides basic shell functionality, including executing built-in commands like `cd`, `status`, and `exit`, executing external commands, handling input/output redirection, and managing background processes.
+**bsh** is a simple Linux shell program written in C. It provides basic shell functionality, including executing built-in commands like `cd`, `history`, `status`, and `exit`, executing external commands, handling input/output redirection, and managing background processes.
 
 ## Features
 
 - **Built-in Command Execution**:
   - `cd`: Change the current working directory.
+  - `history`: Display the command history.
   - `status`: Display the exit status of the last foreground process.
   - `exit`: Exit the shell and terminate all background processes.
 - **External Command Execution**: Supports running commands using the `execvp` system call.

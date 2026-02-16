@@ -28,6 +28,11 @@ int main() {
     int outFD = dup(1);
     ActivePID *activehead = NULL;
 
+    CommandArray cmds;
+    cmds.count = 0;
+    cmds.curr = 0;
+    cmds.start = 0;
+
     // Ignore SIGINT
     struct sigaction ignore_action = {0};
     ignore_action.sa_handler = SIG_IGN;
@@ -48,7 +53,8 @@ int main() {
     while (true) {
         processCheck(activehead);
 
-        Command *curCmd = getInput();
+        Command *curCmd = getInput(&cmds);
+        // add_command(&cmds, curCmd->argv[0]);
 
         // Ignore blank line or comment
         if (curCmd->argc == 0) continue;
@@ -63,7 +69,7 @@ int main() {
         } else if (!strcmp(curCmd->argv[0], "cd")) {
             bsh_cd(curCmd);
         } else if (!strcmp(curCmd->argv[0], "history")) {
-            bsh_history();
+            bsh_history(&cmds);
         
         // Process exec() commands
         } else {

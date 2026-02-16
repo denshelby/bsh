@@ -6,6 +6,8 @@
 #define MAXPATH 256
 #define NUMCHILDREN 50
 
+#include "builtin.h"
+
 
 /******************************************************************************
  * Command - Struct to hold user input command and associated arguments
@@ -28,7 +30,7 @@ typedef struct activepid {
 } ActivePID;
 
 
-Command *getInput();
+Command *getInput(CommandArray *);
 // void printCmd(Command *);
 
 void processCheck(ActivePID *);

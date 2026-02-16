@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "bsh.h"
+#include "builtin.h"
 
 bool bgtoggle = true;
 
@@ -16,7 +17,7 @@ bool bgtoggle = true;
  * and returns a struct with the data.
  * 
  *****************************************************************************/
-Command *getInput() {
+Command *getInput(CommandArray *cmds) {
 
     char input[MAXINPUT];
     input[0] = '\0';
@@ -27,6 +28,7 @@ Command *getInput() {
     printf("\033[1;36mbsh>\033[0m ");           
     fflush(stdout);
     fgets(input, sizeof(input), stdin);
+    add_command(cmds, input);
 
     // Tokenize and parse input
     char *token = strtok(input, " \n");
