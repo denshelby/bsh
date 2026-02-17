@@ -1,6 +1,6 @@
 # bsh
 
-**bsh** is a simple Linux shell program written in C. It provides basic shell functionality, including executing built-in commands like `cd`, `history`, `status`, and `exit`, executing external commands, handling input/output redirection, and managing background processes.
+**bsh** is a simple Linux shell program written in C. It provides basic shell functionality, including executing built-in commands, executing external commands, handling input/output redirection, and managing background processes.
 
 ## Features
 
@@ -9,7 +9,7 @@
   - `history`: Display the command history.
   - `status`: Display the exit status of the last foreground process.
   - `exit`: Exit the shell and terminate all background processes.
-- **External Command Execution**: Supports running commands using the `execvp` system call.
+- **External Command Execution**: Supports running external commands using the `execvp` system call.
 - **Input/Output Redirection**: Allows redirection of input (`<`) and output (`>`).
 - **Background Processes**: Supports running processes in the background using the `&` operator.
 - **Signal Handling**:
@@ -19,7 +19,7 @@
 ## How It Works
 
 1. **Input Parsing**: The shell prompts the user for input, parses the command, and identifies arguments, input/output redirection, and background execution.
-2. **Built-in Commands**: If the command is a built-in (`cd`, `status`, `exit`), it is executed directly.
+2. **Built-in Commands**: If the command is a built-in it is executed directly.
 3. **External Commands**: For other commands, a child process is created using `fork()`, and the command is executed using `execvp`.
 4. **Background Processes**: Background processes are managed using a linked list, and their statuses are periodically checked.
 5. **Signal Handling**:
@@ -29,12 +29,14 @@
 ## File Structure
 
 - **bsh.c**: Contains the main logic for the shell, including the command loop, process management, and signal handling.
-- **bsh.h**: Header file defining the `command` and `activepid` structures, as well as function prototypes.
+- **bsh.h**: Header file defining the `Command` and `ActivePID` structures, as well as function prototypes.
 - **util.c**: Implements utility functions for parsing input, managing the process list, and handling signals.
+- **builtin.c**: Implements built-in functions.
+- **builtin.h**: Header file defining the `CommandArray` structure, as well as built-in function prototypes.
 
 ## Compilation
 
-To compile the program, use the make file:
+To compile the program, use the Makefile by running:
 
 ```bash
 make
