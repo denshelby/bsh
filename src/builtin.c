@@ -8,14 +8,16 @@
 
 void add_command(CommandArray *cmds, char *command) {
     
-    strcpy(cmds->arr[cmds->curr], command);
+    if (strcmp(cmds->arr[(cmds->curr - 1) % MAXCOMMANDS], command)) {
+        strcpy(cmds->arr[cmds->curr], command);
 
-    if (++cmds->count >= MAXCOMMANDS) {
-        cmds->start = (cmds->curr + 1) % MAXCOMMANDS;
-        cmds->count = MAXCOMMANDS;
+        if (++cmds->count >= MAXCOMMANDS) {
+            cmds->start = (cmds->curr + 1) % MAXCOMMANDS;
+            cmds->count = MAXCOMMANDS;
+        }
+
+        cmds->curr = (cmds->curr + 1) % MAXCOMMANDS;
     }
-
-    cmds->curr = (cmds->curr + 1) % MAXCOMMANDS;
 }
 
 void print_commands(CommandArray *cmds) {
