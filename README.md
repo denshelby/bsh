@@ -53,28 +53,28 @@ Once compiled, the executable can be found in the `bin/` directory. Run bsh from
 ### Example Commands
 
 - Run a foreground command:
-  ```bash
-  ls -l
+  ```
+  bsh> ls -l
   ```
 - Run a background command:
-  ```bash
-  sleep 10 &
+  ```
+  bsh> sleep 10 &
   ```
 - Redirect input and output:
-  ```bash
-  sort < input.txt > output.txt
+  ```
+  bsh> sort < input.txt > output.txt
   ```
 - Change directory:
-  ```bash
-  cd /path/to/directory
+  ```
+  bsh> cd /path/to/directory
   ```
 - Check the exit status of the last foreground process:
-  ```bash
-  status
+  ```
+  bsh> status
   ```
 - Exit the shell:
-  ```bash
-  exit
+  ```
+  bsh> exit
   ```
 
 ## License
