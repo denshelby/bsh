@@ -25,18 +25,20 @@ Command *getInput() {
     Command *curCmd = (Command *) calloc(1, sizeof(*curCmd));
     curCmd->argc = 0;
     char *input = readline("\033[1;36mbsh>\033[0m ");
-
+    
     if (input == NULL) {
         free(curCmd);
         return NULL;
     }
-
+    
     if (input[0] != '\0') {
         add_history(input);
     }
 
+    char *expanded = tilde_expand(input);   // replace ~ with HOME
+    
     // Tokenize and parse input
-    char *token = strtok(input, " \n");
+    char *token = strtok(expanded, " \n");
     while (token) {
         if (!strcmp(token, "<")) {
             strcpy(curCmd->infile, strtok(NULL, " \n"));
@@ -54,6 +56,7 @@ Command *getInput() {
         token = strtok(NULL, " \n");
     }
 
+    free(expanded);
     free(input);
     return curCmd;
 }

@@ -11,6 +11,7 @@
   - `exit`: Exit the shell and terminate all background processes.
 - **External Command Execution**: Supports running external commands using the `execvp` system call.
 - **Command History Navigation**: Command history can be retrieved with the up and down arrow keys.
+- **Directory Tab Completion**: Automatically finishes typing a directory name with the [Tab] key.
 - **Input/Output Redirection**: Allows redirection of input (`<`) and output (`>`).
 - **Background Processes**: Supports running processes in the background using the `&` operator.
 - **Signal Handling**:
@@ -34,6 +35,10 @@
 - **util.c**: Implements utility functions for parsing input, managing the process list, and handling signals.
 - **builtin.h**: Header file defining the built-in function prototypes.
 - **builtin.c**: Implements built-in functions.
+
+## Dependencies
+
+- **readline**: Used for input, command history, tilde expansion, and tab completion.
 
 ## Compilation
 
