@@ -19,7 +19,7 @@ bool bgtoggle = true;
  * and returns a struct with the data.
  * 
  *****************************************************************************/
-Command *getInput(CommandArray *cmds) {
+Command *getInput() {
 
     // Input prompt
     Command *curCmd = (Command *) calloc(1, sizeof(*curCmd));
@@ -33,7 +33,6 @@ Command *getInput(CommandArray *cmds) {
 
     if (input[0] != '\0') {
         add_history(input);
-        add_command(cmds, input);
     }
 
     // Tokenize and parse input
