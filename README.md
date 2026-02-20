@@ -10,6 +10,7 @@
   - `status`: Display the exit status of the last foreground process.
   - `exit`: Exit the shell and terminate all background processes.
 - **External Command Execution**: Supports running external commands using the `execvp` system call.
+- **Command History Navigation**: Command history can be retrieved with the up and down arrow keys.
 - **Input/Output Redirection**: Allows redirection of input (`<`) and output (`>`).
 - **Background Processes**: Supports running processes in the background using the `&` operator.
 - **Signal Handling**:
@@ -28,11 +29,11 @@
 
 ## File Structure
 
+- **bsh.h**: Header file defining the `Command` and `ActivePID` structures, as well as utility function prototypes.
 - **bsh.c**: Contains the main logic for the shell, including the command loop, process management, and signal handling.
-- **bsh.h**: Header file defining the `Command` and `ActivePID` structures, as well as function prototypes.
 - **util.c**: Implements utility functions for parsing input, managing the process list, and handling signals.
+- **builtin.h**: Header file defining the built-in function prototypes.
 - **builtin.c**: Implements built-in functions.
-- **builtin.h**: Header file defining the `CommandArray` structure, as well as built-in function prototypes.
 
 ## Compilation
 

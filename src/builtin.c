@@ -1,8 +1,7 @@
 /******************************************************************************
  * File Name: builtin.c
  * 
- * Description: Built in functions for the bsh shell and helper functions for 
- * the builtins.
+ * Description: Built in functions for the bsh shell.
  * 
  * Author: Dennis Shelby 
  * 
@@ -13,45 +12,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <readline/history.h>
 #include "bsh.h"
 #include "builtin.h"
 
-
-/******************************************************************************
- * Function Name: add_command()
- * 
- * Description: Adds a command to the circular array of commands. Ignores
- * consecutive duplicate commands.
- * 
- *****************************************************************************/
-void add_command(CommandArray *cmds, char *command) {
-    
-    if (strcmp(cmds->arr[(cmds->curr - 1) % MAXCOMMANDS], command)) {   // Ignore dup
-        strcpy(cmds->arr[cmds->curr], command);
-
-        if (++cmds->count >= MAXCOMMANDS) {
-            cmds->start = (cmds->curr + 1) % MAXCOMMANDS;
-            cmds->count = MAXCOMMANDS;
-        }
-
-        cmds->curr = (cmds->curr + 1) % MAXCOMMANDS;
-    }
-}
-
-/******************************************************************************
- * Function Name: print_commands()
- * 
- * Description: prints the commands stored in the circular array of commands
- * starting at cmds->start. Does not print the last command added to the array.
- * This command will always be "history" because that is the bsh command that 
- * triggers this function.
- * 
- *****************************************************************************/
-void print_commands(CommandArray *cmds) {
-    for (int i = 0; i < cmds->count-1; i++) {
-        printf("%s", cmds->arr[(cmds->start + i) % MAXCOMMANDS]);
-    }
-}
 
 
 /******************************************************************************
@@ -60,8 +24,13 @@ void print_commands(CommandArray *cmds) {
  * Description: Wrapper for print_commands().
  * 
  *****************************************************************************/
-void bsh_history(CommandArray *cmds) {
-    print_commands(cmds);
+void bsh_history() {
+    for (int i = 0; i < history_length; i++) {
+        HIST_ENTRY *entry = history_get(i);
+        if (entry != NULL) {
+            printf("%s\n", entry->line);
+        }
+    }
 }
 
 

@@ -30,7 +30,7 @@ typedef struct activepid {
 } ActivePID;
 
 
-Command *getInput(CommandArray *);
+Command *getInput();
 // void printCmd(Command *);
 
 void processCheck(ActivePID *);

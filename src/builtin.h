@@ -8,21 +8,8 @@
 // Forward declaration of Command
 typedef struct command Command;
 
-/******************************************************************************
- * CommandArray - Struct to hold a circular array of commands. 
- *****************************************************************************/
-typedef struct command_array {
-    char arr[MAXCOMMANDS][MAXINPUT];
-    int start;
-    int curr;
-    int count;
-} CommandArray;
-
-void add_command(CommandArray *, char *);
-void print_commands(CommandArray *);
-
 void bsh_status(int *);
 void bsh_cd(Command *);
-void bsh_history(CommandArray *);
+void bsh_history();
 
 #endif      //_BSH_BUILTIN_
