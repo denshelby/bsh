@@ -54,7 +54,6 @@ int main() {
         processCheck(activehead);
 
         Command *curCmd = getInput(&cmds);
-        // add_command(&cmds, curCmd->argv[0]);
 
         // Ignore blank line or comment
         if (curCmd->argc == 0) continue;
@@ -151,7 +150,10 @@ int main() {
                     break;
             }
         }
-        curCmd = NULL;
+        
+        for (int i = 0; i < curCmd->argc; i++) {
+            free(curCmd->argv[i]);
+        }    
         free(curCmd);
     }
 

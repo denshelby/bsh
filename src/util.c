@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #include "bsh.h"
 #include "builtin.h"
@@ -19,16 +21,20 @@ bool bgtoggle = true;
  *****************************************************************************/
 Command *getInput(CommandArray *cmds) {
 
-    char input[MAXINPUT];
-    input[0] = '\0';
+    // Input prompt
     Command *curCmd = (Command *) calloc(1, sizeof(*curCmd));
     curCmd->argc = 0;
+    char *input = readline("\033[1;36mbsh>\033[0m ");
 
-    // Input prompt
-    printf("\033[1;36mbsh>\033[0m ");           
-    fflush(stdout);
-    fgets(input, sizeof(input), stdin);
-    add_command(cmds, input);
+    if (input == NULL) {
+        free(curCmd);
+        return NULL;
+    }
+
+    if (input[0] != '\0') {
+        add_history(input);
+        add_command(cmds, input);
+    }
 
     // Tokenize and parse input
     char *token = strtok(input, " \n");
@@ -42,12 +48,14 @@ Command *getInput(CommandArray *cmds) {
                 curCmd->bg = true;
             }
         } else {
-            curCmd->argv[curCmd->argc++] = token;
+            curCmd->argv[curCmd->argc] = (char *)malloc(strlen(token) + 1);
+            strcpy(curCmd->argv[curCmd->argc++], token);
         }
         
         token = strtok(NULL, " \n");
     }
 
+    free(input);
     return curCmd;
 }
 

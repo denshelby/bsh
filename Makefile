@@ -13,11 +13,11 @@ BIN=$(BINDIR)/bsh
 all:$(BIN)
 
 $(BIN):$(OBJS) | $(BINDIR)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) -o $@ -L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
+
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
-	$(CC) $(CFLAGS) -c $< -o $@
-
+	$(CC) $(CFLAGS) -c $< -o $@ 
 $(OBJ):
 	mkdir -p $@
 
