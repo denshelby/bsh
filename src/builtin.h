@@ -8,6 +8,9 @@
 // Forward declaration of Command
 typedef struct command Command;
 
+/******************************************************************************
+ * CommandArray - Struct to hold a circular array of commands. 
+ *****************************************************************************/
 typedef struct command_array {
     char arr[MAXCOMMANDS][MAXINPUT];
     int start;
